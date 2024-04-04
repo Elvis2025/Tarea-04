@@ -120,5 +120,23 @@ namespace ManejoPresupuesto.Servicios
 
         }
 
+        public async Task<IEnumerable<ResultadoObtenerPorSemana>> ObtenerPorSemana( ParametroObtenerTransaccionesPorUsuario modelo)
+        {
+            using var connection = new SqlConnection(_connectionString);
+
+            return await connection.QueryAsync<ResultadoObtenerPorSemana>(
+                @"
+                    
+                    SELECT 
+	                    datediff(d,@fechaInicio,FechaTransaccion) / 7 + 1 AS Semana,
+	                    SUM(Monto) AS Monto, c.TipoOperacionId
+	
+                    FROM transacciones t
+                    INNER JOIN Categorias c ON c.Id = t.CategoriaId
+                    WHERE t.UsuarioId = @UsuarioId AND FechaTransaccion BETWEEN @FechaInicio AND @FechaFin
+                    GROUP BY datediff(d,@FechaInicio,FechaTransaccion) / 7 + 1,c.TipoOperacionId
+                ",modelo);
+        }
+
     }
 }

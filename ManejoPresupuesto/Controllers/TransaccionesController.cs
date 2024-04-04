@@ -2,6 +2,7 @@
 using ManejoPresupuesto.Models;
 using ManejoPresupuesto.Servicios;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ManejoPresupuesto.Controllers
@@ -37,6 +38,23 @@ namespace ManejoPresupuesto.Controllers
             var modelo = await _servicioReportes.ObtenerReporteTransaccionesDetalladas(usuarioId, mes, year, ViewBag);
 
             return View(modelo);
+        }
+
+        public IActionResult Semanal()
+        {
+            return View();
+        }
+        public IActionResult Calendario()
+        {
+            return View();
+        }
+        public IActionResult Excel()
+        {
+            return View();
+        }
+        public IActionResult Mensual()
+        {
+            return View();
         }
 
         public async Task<IActionResult> Crear()

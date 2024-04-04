@@ -1,4 +1,5 @@
 ﻿using ManejoPresupuesto.Models;
+using System.Data;
 
 namespace ManejoPresupuesto.Servicios
 {
@@ -13,6 +14,22 @@ namespace ManejoPresupuesto.Servicios
             _httpContext = httpContextAccessor.HttpContext;
         }
 
+        public async Task<IEnumerable<ResultadoObtenerPorSemana>> obtenerSemanal(int usuarioId, int mes, int year, dynamic ViewBag)
+        {
+            (DateTime fechaInicio, DateTime fechafin) = GenerarFechaInicioYFin(mes, year);
+
+            var parametro = new ParametroObtenerTransaccionesPorUsuario()
+            {
+                UsuarioId = usuarioId,
+                FechaInicio = fechaInicio,
+                FechaFin = fechafin
+
+            };
+
+            asignarValoresAlViewBag(ViewBag, fechaInicio);
+            var modelo = await _repositorioTrasacciones.ObtenerPorSemana(parametro);
+            return modelo;
+        }
         public async Task<ReporteTransaccionesDetalladas>ObtenerReporteTransaccionesDetalladas
              (int usuarioId, int mes, int year, dynamic ViewBag)
         {

@@ -2,6 +2,7 @@
 using ManejoPresupuesto.Models;
 using ManejoPresupuesto.Servicios;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ManejoPresupuesto.Controllers
@@ -39,12 +40,16 @@ namespace ManejoPresupuesto.Controllers
             return View(modelo);
         }
 
+
         public async Task<IActionResult> Semanal(int mes, int year)
         {
 
             var usuarioId = _servicioUsuarios.ObtenerUsuarioId();
             IEnumerable<ResultadoObtenerPorSemana> transaccionesPorSemana = await _servicioReportes.obtenerSemanal(usuarioId, mes, year, ViewBag);
-            
+
+        public IActionResult Semanal()
+        {
+ManejoPresupuesto-Dev
             return View();
         }
         public IActionResult Calendario()
